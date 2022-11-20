@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Generic;
+
+namespace qwerty
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, string> files = new Dictionary<string, string>();
+            bool isPlay = true;
+
+            while (isPlay)
+            {
+                string userInput;
+                int digit;
+
+                Console.Clear();
+                Console.WriteLine("Выберите команду \n1)Добавить досье\n2)Вывести все досье\n3)Удалить досье\n4)Выход");
+                Console.Write("Ввод...");
+                userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "1":
+                        Console.WriteLine("\nВведите сначала ФИО, затем нажмите Enter, а затем должность");
+                        files.Add(Console.ReadLine().ToUpper(), Console.ReadLine());
+                        break;
+                    case "2":
+                        ShowInfo(files);
+                        break;
+                    case "3":
+                        files = DeleteFile(files);
+                        break;
+                    case "4":
+                        isPlay = false;
+                        break;
+                    default:
+                        Console.WriteLine("\nТакой команды не существует");
+                        break;
+                }
+
+                Console.WriteLine("\nНажмите любую кнопку для обновления");
+                Console.ReadKey();
+            }
+
+        }
+
+        static void ShowInfo(Dictionary<string, string> files)
+        {
+            Console.WriteLine();
+            foreach (var file in files)
+            {
+                Console.WriteLine(file.Key + " - " + file.Value);
+            }
+        }
+
+        static Dictionary<string, string> DeleteFile(Dictionary<string, string> files)
+        {
+            string fileToDelete;
+            Dictionary<string, string> newFiles = new Dictionary<string, string>();
+
+            Console.WriteLine("\nВведите ФИО для удаления");
+            fileToDelete = Console.ReadLine().ToUpper();
+
+            foreach (var file in files)
+            {
+                if (file.Key != fileToDelete)
+                {
+                    newFiles.Add(file.Key, file.Value);
+                }
+            }
+
+            if (newFiles.Count == files.Count)
+            {
+                Console.WriteLine("Такого ФИО не найдено");
+            }
+
+            return newFiles;
+        }
+    }
+}
